@@ -1,6 +1,6 @@
 # Epi data Task test
 
-A full-stack application designed for Reservation System, built with React + Vite and Node.js + Nestjs.
+A full-stack application designed for Reservation System, built with React + Next.js and Pyhton + Fastapi.
 
 ## 🚀 Tech Stack
 
