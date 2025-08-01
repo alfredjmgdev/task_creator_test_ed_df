@@ -1,0 +1,8 @@
+{
+  "typeCheckingMode": "strict",
+  "extraPaths": ["../venv/lib/python3.12/site-packages"],
+  "include": ["."],
+  "ignore": ["venv", "tests", "__pycache__"],
+  "venvPath": "../venv",
+  "venv": "venv"
+}

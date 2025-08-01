@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: epidata_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: epidata_test
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init.sql:/docker-entrypoint-initdb.d/mysql-init.sql
+    networks:
+      - epidata_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  # Backend API
+  backend:
+    build:
+      context: ./epidata_test_be
+      dockerfile: Dockerfile
+    container_name: epidata_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./epidata_test_be/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - epidata_network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./epidata_test_fe
+      dockerfile: Dockerfile
+    container_name: epidata_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./epidata_test_fe/.env
+    depends_on:
+      - backend
+    networks:
+      - epidata_network
+
+networks:
+  epidata_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
