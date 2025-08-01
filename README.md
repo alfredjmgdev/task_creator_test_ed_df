@@ -1,4 +1,4 @@
-# Epi data Task test
+# Task app test
 
 A full-stack application designed for Reservation System, built with React + Next.js and Pyhton + Fastapi.
 
